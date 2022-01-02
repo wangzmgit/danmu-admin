@@ -12,10 +12,10 @@ export const deletePartition = (id) => {
 
 //获取分区
 export const getPartition = (fid) => {
-    return request.get('v1/admin/partition/list?fid=' + fid);
+    return request.get('v1/partition/list?fid=' + fid);
 }
 
 //获取所有
 export const getAllPartition = () => {
-    return request.get('v1/admin/partition/all');
+    return request.get('v1/partition/all');
 }

@@ -18,6 +18,7 @@
         <a-menu-item key="7">轮播图管理</a-menu-item>
         <a-menu-item key="8">分区管理</a-menu-item>
         <a-menu-item key="9">意见反馈</a-menu-item>
+        <a-menu-item key="10">网站配置</a-menu-item>
       </a-menu>
       <div class="admin-router">
         <router-view></router-view>
@@ -60,6 +61,8 @@ export default {
           return ["8"];
         case "/opinion":
           return ["9"];
+        case "/config":
+          return ["10"];
       }
     },
     handleSelect(select) {
@@ -90,7 +93,10 @@ export default {
           break;     
         case "9":
           this.$router.push({ name: "Opinion" });
-          break;        
+          break;  
+        case "10":
+          this.$router.push({ name: "Config" });
+          break;          
       }
     },
     logout(){

@@ -80,6 +80,12 @@ const routes = [
         component: () =>
           import('../views/Opinion.vue'),
       },
+      {
+        path: '/config',
+        name: 'Config',
+        component: () =>
+          import('../views/Config.vue'),
+      },
     ]
   },
 ]
