@@ -1,9 +1,11 @@
 import axios from 'axios';
-import config from "../config"
-import storage from "@/utils/stored-data.js"
+import config from "../config";
+import storage from "@/utils/stored-data.js";
 
-const AdminURL = config.url + "/api/";
-export const CarouselUrl = AdminURL + "v1/admin/carousel/upload/img"
+const AdminURL = config.url + "api/";
+export const CarouselUrl = AdminURL + "v1/admin/carousel/upload/img";
+export const CoverUrl = AdminURL + "v1/admin/video/cover/upload";
+export const VideoUrl = AdminURL + "v1/admin/video/resource/upload";
 
 const service = axios.create({
     baseURL: AdminURL,

@@ -1,23 +1,18 @@
 <template>
   <div>
-    <a-table
-      rowKey="vid"
-      :columns="columns"
-      :dataSource="data"
-      :pagination="pagination"
-      @change="pageChange">
+    <a-table rowKey="vid" :columns="columns" :dataSource="data" :pagination="pagination" @change="pageChange">
       <span slot="cover" slot-scope="record">
         <img height="60px" :src="record.cover" />
       </span>
-      <span slot="create_at" slot-scope="record">
-        {{record.create_at | toTime}}
+      <span slot="created_at" slot-scope="record">
+        {{record.created_at | toTime}}
       </span>
-      <span slot="original" slot-scope="record">
-        {{record.original | toOriginal}}
+      <span slot="copyright" slot-scope="record">
+        {{record.copyright | toCopyright}}
       </span>
       <span class="operate" slot="action" slot-scope="record">
-        <a @click="viewVideo(record.video,record.video_type)">查看视频</a>
-        <a @click="_review(record.vid,2000)">通过</a>
+        <a @click="viewVideo(record.vid,record.video_type)">查看视频</a>
+        <a @click="reviewVideo(record.vid,2000)">通过</a>
         <a @click="showReviewModal(record.vid)">不通过</a>
       </span>
     </a-table>
@@ -66,20 +61,20 @@ const columns = [
   },
   {
     title: "简介",
-    key: "introduction",
-    dataIndex: "introduction",
+    key: "desc",
+    dataIndex: "desc",
     align: "center",
   },
   {
     title: "上传时间",
-    key: "create_at",
-    scopedSlots: { customRender: "create_at" },
+    key: "created_at",
+    scopedSlots: { customRender: "created_at" },
     align: "center",
   },
   {
     title: "允许转载",
-    key: "original",
-    scopedSlots: { customRender: "original" },
+    key: "copyright",
+    scopedSlots: { customRender: "copyright" },
     align: "center",
   },
   {
@@ -92,7 +87,7 @@ const columns = [
 ];
 import Hls from "hls.js";
 import { utcToBeijing } from "@/utils/time.js";
-import { getReviewList,review } from "@/api/admin.js";
+import { getReviewList, review, videoResource } from "@/api/review.js";
 export default {
   data() {
     return {
@@ -115,7 +110,7 @@ export default {
     };
   },
   methods: {
-    _getReviewList() {
+    getVideoList() {
       getReviewList(this.pagination.current, this.pagination.pageSize).then((res) => {
         if (res.data.code === 2000) {
           this.data = res.data.data.videos;
@@ -128,7 +123,22 @@ export default {
       });
     },
     //查看视频
-    viewVideo(src,type){
+    viewVideo(vid,type){
+      let src = "";
+      //获取到视频链接
+      videoResource(vid).then((res) => {
+        if(res.data.code === 2000){
+          let video = res.data.data.video;
+          if(video.original === "") {
+            src = video.res360;
+          } else {
+            src =video.original;
+          }
+          this.initPlayer(src,type);
+        }
+      })
+    },
+    initPlayer(src, type) {
       this.visible = true;
       let player = document.getElementById("reviewPlayer");
       if(type == "hls"){
@@ -153,7 +163,7 @@ export default {
     //切换页面
     pageChange(pagination) {
       this.pagination = pagination;
-      this._getReviewList();
+      this.getVideoList();
     },
     //显示不通过的对话框
     showReviewModal(vid){
@@ -166,14 +176,14 @@ export default {
         this.$message.error("请选择不通过的原因");
         return;
       }
-      this._review(this.form.vid,Number(this.selectStatus))
+      this.reviewVideo(this.form.vid,Number(this.selectStatus))
     },
-    _review(vid,code){
+    reviewVideo(vid,code){
       this.form.vid = vid;
       this.form.status = code;
       review(this.form).then((res) => {
         if (res.data.code === 2000) {
-          this._getReviewList();
+          this.getVideoList();
           this.reviewVisible = false;
         }
       }).catch((err) => { 
@@ -182,11 +192,11 @@ export default {
     }
   },
   created() {
-    this._getReviewList();
+    this.getVideoList();
   },
   filters: {
-    toOriginal(original) {
-      if (original) return "否";
+    toCopyright(copyright) {
+      if (copyright) return "否";
       else return "是";
     },
     toTime(time) {

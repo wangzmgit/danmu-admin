@@ -83,7 +83,7 @@ const columns = [
     align: "center",
   },
 ];
-import { getUserList,modifyUser,deleteUser } from "@/api/admin.js";
+import { getUserList,modifyUser,deleteUser } from "@/api/user.js";
 export default {
   data() {
     return {

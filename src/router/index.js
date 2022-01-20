@@ -18,6 +18,13 @@ const routes = [
       import('../views/Login.vue'),
   },
   {
+    path: '/import/:vid?',
+    name: 'ImportVideo',
+    meta: { admin: true },
+    component: () =>
+      import('../views/ImportVideo.vue'),
+  },
+  {
     path: '/',
     name: 'Home',
     meta: { admin: true },

@@ -9,16 +9,16 @@
     </div>
     <div class="admin-box">
       <a-menu :default-selected-keys="activedMenu($route.path)" mode="inline" class="admin-menu" @select="handleSelect">
-        <a-menu-item key="1">首页</a-menu-item>
-        <a-menu-item key="2">管理员</a-menu-item>
-        <a-menu-item key="3">用户管理</a-menu-item>
-        <a-menu-item key="4">视频管理</a-menu-item>
+        <a-menu-item v-if="adminInfo.authority >= 2000" key="1">首页</a-menu-item>
+        <a-menu-item v-if="adminInfo.authority === 3000" key="2">管理员</a-menu-item>
+        <a-menu-item v-if="adminInfo.authority >= 2000" key="3">用户管理</a-menu-item>
+        <a-menu-item v-if="adminInfo.authority >= 2000" key="4">视频管理</a-menu-item>
         <a-menu-item key="5">视频审核</a-menu-item>
-        <a-menu-item key="6">公告管理</a-menu-item>
-        <a-menu-item key="7">轮播图管理</a-menu-item>
-        <a-menu-item key="8">分区管理</a-menu-item>
-        <a-menu-item key="9">意见反馈</a-menu-item>
-        <a-menu-item key="10">网站配置</a-menu-item>
+        <a-menu-item v-if="adminInfo.authority >= 2000" key="6">公告管理</a-menu-item>
+        <a-menu-item v-if="adminInfo.authority >= 2000" key="7">轮播图管理</a-menu-item>
+        <a-menu-item v-if="adminInfo.authority >= 2000" key="8">分区管理</a-menu-item>
+        <a-menu-item v-if="adminInfo.authority >= 2000" key="9">意见反馈</a-menu-item>
+        <a-menu-item v-if="adminInfo.authority === 3000" key="10">网站配置</a-menu-item>
       </a-menu>
       <div class="admin-router">
         <router-view></router-view>
@@ -77,7 +77,7 @@ export default {
           this.$router.push({ name: "User" });
           break;
         case "4":
-          this.$router.push({ name: "Video" });
+          this.$router.push({ name: "Video" ,query: { from: 'user' }});
           break;
         case "5":
           this.$router.push({ name: "Review" });
@@ -103,7 +103,7 @@ export default {
       //清除token和用户信息并刷新页面
       storage.remove('admin');
       storage.remove('adminInfo');
-      this.$router.push( {name: "AdminLogin"} );
+      this.$router.push( {name: "Login"} );
     },
     greet(){
       let time = new Date();

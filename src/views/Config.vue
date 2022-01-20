@@ -2,20 +2,23 @@
   <div>
     <a-tabs default-active-key="1" @change="tabChange">
       <a-tab-pane key="1" tab="OSS配置">
-        <a-form-model ref="ossForm" :model="oss" :rules="rules" :label-col="{span:4,offset:1}" :wrapper-col="{span:15,offset:1}">
+        <a-form-model ref="ossForm" :model="oss" :rules="oss.storage?ossRules:localRules" :label-col="{span:4,offset:1}" :wrapper-col="{span:15,offset:1}">
+          <a-form-model-item label="使用OSS存储">
+            <a-switch v-model="oss.storage" @change="changeStorage"/>
+          </a-form-model-item>
           <a-form-model-item label="存储空间(bucket)" prop="bucket">
-            <a-input v-model="oss.bucket"></a-input>
+            <a-input :disabled="!oss.storage" v-model="oss.bucket"></a-input>
           </a-form-model-item>
           <a-form-model-item label="存储区域(endpoint)" prop="endpoint">
-            <a-input v-model="oss.endpoint" ></a-input>
+            <a-input :disabled="!oss.storage" v-model="oss.endpoint" ></a-input>
           </a-form-model-item>
           <a-form-model-item label="accesskeyId" prop="accesskeyId">
-            <a-input v-model="oss.accesskeyId"></a-input>
+            <a-input :disabled="!oss.storage" v-model="oss.accesskeyId"></a-input>
           </a-form-model-item>
           <a-form-model-item label="accesskeySecret" prop="accesskeySecret">
-            <a-input v-model="oss.accesskeySecret"></a-input>
+            <a-input :disabled="!oss.storage" v-model="oss.accesskeySecret"></a-input>
           </a-form-model-item>
-          <a-form-model-item label="自定义域名(选填)">
+          <a-form-model-item label="自定义域名(选填)" prop="domain">
             <a-input v-model="oss.domain" placeholder="http://example.com"></a-input>
           </a-form-model-item>
           <a-form-model-item >
@@ -69,6 +72,7 @@ export default {
   data() {
     return {
       oss:{
+        storage: true,
         bucket: "",
         endpoint: "oss-cn-beijing.aliyuncs.com",
         accesskeyId: "",
@@ -86,17 +90,19 @@ export default {
         email: "",
         password: "",
       },
-      rules: {
+      ossRules: {
         bucket: [{ required: true, message: "该项为必填项", trigger: "blur" }],
         endpoint: [{ required: true, message: "该项为必填项", trigger: "blur" }],
         accesskeyId: [{ required: true, message: "该项为必填项", trigger: "blur" }],
         accesskeySecret: [{ required: true, message: "该项为必填项", trigger: "blur" }],
+      },
+      localRules: {},
+      rules: {
         name: [{ required: true, message: "该项为必填项", trigger: "blur" }],
         host: [{ required: true, message: "该项为必填项", trigger: "blur" }],
         port: [{ required: true, message: "该项为必填项", trigger: "blur" }],
         address: [{ required: true, message: "该项为必填项", trigger: "blur" }],
         password: [{ required: true, message: "该项为必填项", trigger: "blur" }],
-
       },
       adminRules: {
         email: [
@@ -123,6 +129,14 @@ export default {
         this.oss = res.data.data;
       })
     },
+    changeStorage(val){
+      if (!val) {
+        this.$notification.open({
+          message: '注意事项',
+          description: "使用本地存储模式，自定义域名为必填项",
+        });
+      }
+    },
     setOss() {
       this.$refs.ossForm.validate((valid) => {
         if (valid) {
@@ -134,6 +148,8 @@ export default {
         } else {
           this.$message.error("请检查输入的数据");
         }
+      }).catch((err) => {
+        this.$message.error(err.response.data.msg);
       });
     },
     setEmail(){

@@ -11,8 +11,8 @@ export const getEmailConfig = () => {
 }
 
 //配置OSS
-export const setOssConfig = ({bucket, endpoint, accesskeyId, accesskeySecret, domain}) => {
-    return request.post('v1/admin/config/oss/set', {bucket, endpoint, accesskeyId, accesskeySecret, domain});
+export const setOssConfig = ({storage, bucket, endpoint, accesskeyId, accesskeySecret, domain}) => {
+    return request.post('v1/admin/config/oss/set', {storage, bucket, endpoint, accesskeyId, accesskeySecret, domain});
 }
 
 //配置邮箱

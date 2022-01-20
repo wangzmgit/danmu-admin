@@ -11,7 +11,7 @@
       @change="pageChange">
       <span slot="authority" slot-scope="record">{{record.authority | toAuthority}}</span>
       <span slot="action" slot-scope="record">
-        <a @click="_deleteAdmin(record.id)">删除</a>
+        <a @click="deleteClick(record.id)">删除</a>
       </span>
     </a-table>
     <!--新增管理员-->
@@ -35,7 +35,7 @@
       </a-form-model>
       <template slot="footer">
         <a-button @click="visible=false">取消</a-button>
-        <a-button type="primary" @click="_addAdmin('form')">创建</a-button>
+        <a-button type="primary" @click="addAdminClick()">创建</a-button>
       </template>
     </a-modal>
   </div>
@@ -104,7 +104,7 @@ export default {
     };
   },
   methods: {
-    _getAdminList() {
+    getAdminListRequest() {
       getAdminList(this.pagination.current,this.pagination.pageSize).then((res)=>{
         if(res.data.code === 2000){
           this.data = res.data.data.admins;
@@ -117,12 +117,17 @@ export default {
       });
     },
     //添加管理员
-    _addAdmin(form){
-      this.$refs[form].validate((valid) => {
+    addAdminClick(){
+      this.$refs.form.validate((valid) => {
         if (valid) {
           addAdmin(this.form).then((res) => {
             if(res.data.code === 2000){
               this.$message.success("添加成功");
+              Object.keys(this.form).forEach((key) => {
+                this.form[key] = "";
+              });
+              this.visible = false;
+              this.getAdminListRequest();
             }
           }).catch((err) => {
             this.$message.error(err.response.data.msg);
@@ -132,11 +137,11 @@ export default {
         }
       });
     },
-    _deleteAdmin(id){
+    deleteClick(id){
       deleteAdmin(id).then((res)=>{
         if(res.data.code === 2000){
           this.$message.success("删除成功");
-          this._getAdminList();
+          this.getAdminListRequest();
         }
       }).catch((err) => {
         this.$message.error(err.response.data.msg);
@@ -145,11 +150,11 @@ export default {
     //切换页面
     pageChange(pagination) {
       this.pagination = pagination;
-      this._getAdminList();
+      this.getAdminListRequest();
     }
   },
   created(){
-    this._getAdminList();
+    this.getAdminListRequest();
   },
   filters:{
     toAuthority(authority){
@@ -158,8 +163,7 @@ export default {
           return "审核员";
         case 2000:
           return "管理员"
-      }
-        
+      }  
     }
   }
 };
