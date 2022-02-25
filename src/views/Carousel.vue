@@ -77,7 +77,7 @@ const columns = [
 import storage from "@/utils/stored-data.js";
 import { CarouselUrl } from "@/utils/request.js";
 import { utcToBeijing } from "@/utils/time.js";
-import { getCarousel,addCarousel,deleteCarousel } from "@/api/admin.js";
+import { getCarousel,addCarousel,deleteCarousel } from "@/api/carousel.js";
 export default {
   data() {
     return {

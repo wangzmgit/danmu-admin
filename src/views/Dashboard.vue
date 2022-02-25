@@ -29,8 +29,8 @@
 </template>
 <script>
 import CountTo from "vue-count-to";
-import { getTotalData, getRecentData } from "@/api/admin.js";
 import VeLine from "v-charts/lib/line.common";
+import { getTotalData, getRecentData } from "@/api/dashboard.js";
 export default {
   data() {
     return {

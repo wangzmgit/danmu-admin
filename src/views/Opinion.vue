@@ -62,7 +62,7 @@ const columns = [
 ];
 
 import { utcToBeijing } from "@/utils/time.js";
-import { getOpinionList } from "@/api/admin.js";
+import { getOpinionList } from "@/api/opinion.js";
 export default {
   data() {
     return {

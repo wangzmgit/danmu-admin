@@ -73,7 +73,7 @@ const columns = [
   },
 ];
 import { utcToBeijing } from "@/utils/time.js";
-import { getAnnounceList,addAnnounce,deleteAnnounce } from "@/api/admin.js";
+import { getAnnounceList,addAnnounce,deleteAnnounce } from "@/api/announce.js";
 export default {
   data() {
     return {
