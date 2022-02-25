@@ -10,15 +10,25 @@
     <div class="admin-box">
       <a-menu :default-selected-keys="activedMenu($route.path)" mode="inline" class="admin-menu" @select="handleSelect">
         <a-menu-item v-if="adminInfo.authority >= 2000" key="1">首页</a-menu-item>
-        <a-menu-item v-if="adminInfo.authority === 3000" key="2">管理员</a-menu-item>
-        <a-menu-item v-if="adminInfo.authority >= 2000" key="3">用户管理</a-menu-item>
-        <a-menu-item v-if="adminInfo.authority >= 2000" key="4">视频管理</a-menu-item>
-        <a-menu-item key="5">视频审核</a-menu-item>
-        <a-menu-item v-if="adminInfo.authority >= 2000" key="6">公告管理</a-menu-item>
-        <a-menu-item v-if="adminInfo.authority >= 2000" key="7">轮播图管理</a-menu-item>
-        <a-menu-item v-if="adminInfo.authority >= 2000" key="8">分区管理</a-menu-item>
-        <a-menu-item v-if="adminInfo.authority >= 2000" key="9">意见反馈</a-menu-item>
-        <a-menu-item v-if="adminInfo.authority === 3000" key="10">网站配置</a-menu-item>
+        <a-menu-item key="2">视频审核</a-menu-item>
+        <a-sub-menu v-if="adminInfo.authority >= 2000" >
+          <template slot="title"> <span>用户内容管理</span> </template>
+          <a-menu-item key="3">用户管理</a-menu-item>
+          <a-menu-item key="4">视频管理</a-menu-item>
+          <a-menu-item key="11">合集管理</a-menu-item>
+        </a-sub-menu>
+        <a-sub-menu v-if="adminInfo.authority >= 2000" >
+          <template slot="title"> <span>网站内容管理</span> </template>
+          <a-menu-item key="5">公告管理</a-menu-item>
+          <a-menu-item key="6">轮播图管理</a-menu-item>
+          <a-menu-item key="7">分区管理</a-menu-item>
+        </a-sub-menu>
+        <a-sub-menu v-if="adminInfo.authority === 3000">
+          <template slot="title"> <span>高级配置</span> </template>
+          <a-menu-item key="8">管理员账号</a-menu-item>
+          <a-menu-item key="9">网站配置</a-menu-item>
+        </a-sub-menu>
+        <a-menu-item v-if="adminInfo.authority >= 2000" key="10">意见反馈</a-menu-item>
       </a-menu>
       <div class="admin-router">
         <router-view></router-view>
@@ -45,24 +55,26 @@ export default {
       switch (val) {
         case "/dashboard":
           return ["1"];
-        case "/info":
+        case "/review":
           return ["2"];
         case "/user":
           return ["3"];
         case "/video":
           return ["4"];
-        case "/review":
-          return ["5"];
         case "/announce":
-          return ["6"];
+          return ["5"];
         case "/carousel":
-          return ["7"];
+          return ["6"];
         case "/partition":
+          return ["7"];
+        case "/info":
           return ["8"];
-        case "/opinion":
-          return ["9"];
         case "/config":
+          return ["9"];
+        case "/opinion":
           return ["10"];
+        case "/collection":
+          return ["11"];
       }
     },
     handleSelect(select) {
@@ -71,7 +83,7 @@ export default {
           this.$router.push({ name: "Dashboard" });
           break;
         case "2":
-          this.$router.push({ name: "AdminInfo" });
+          this.$router.push({ name: "Review" });
           break;
         case "3":
           this.$router.push({ name: "User" });
@@ -80,23 +92,26 @@ export default {
           this.$router.push({ name: "Video" ,query: { from: 'user' }});
           break;
         case "5":
-          this.$router.push({ name: "Review" });
-          break;
-        case "6":
           this.$router.push({ name: "Announce" });
           break;
-        case "7":
+        case "6":
           this.$router.push({ name: "Carousel" });
+          break;
+        case "7":
+          this.$router.push({ name: "Partition" });
           break;   
         case "8":
-          this.$router.push({ name: "Partition" });
+          this.$router.push({ name: "AdminInfo" });
           break;     
         case "9":
-          this.$router.push({ name: "Opinion" });
+          this.$router.push({ name: "Config" });
           break;  
         case "10":
-          this.$router.push({ name: "Config" });
+          this.$router.push({ name: "Opinion" });
           break;          
+        case "11":
+          this.$router.push({ name: "Collection" });
+          break;     
       }
     },
     logout(){

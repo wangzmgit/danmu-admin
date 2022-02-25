@@ -1,5 +1,5 @@
 const title = "弹幕网站后台管理";
-const url = "/";
+const url = "http://localhost:9000/";
 
 const config = {
     title:title,

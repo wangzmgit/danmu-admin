@@ -93,6 +93,12 @@ const routes = [
         component: () =>
           import('../views/Config.vue'),
       },
+      {
+        path: '/collection',
+        name: 'Collection',
+        component: () =>
+          import('../views/Collection.vue'),
+      },
     ]
   },
 ]
