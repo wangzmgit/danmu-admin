@@ -104,7 +104,7 @@ export default {
       cover: CoverUrl,
       videoUrl: VideoUrl,
       headers: {
-        Authorization: "Bearer " + storage.get("token"),
+        Authorization: "Bearer " + storage.get("admin"),
       },
       rules: {
         title: [{ required: true, message: "请输入标题", trigger: "blur" }],
