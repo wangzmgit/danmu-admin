@@ -107,8 +107,9 @@ export default {
         if (valid) {
           addAnnounce(this.form).then((res) => {
             if(res.data.code === 2000){
+              this.visible = false;
               this.$message.success("添加成功");
-              this.getAnnounceList();
+              this._getAnnounceList();
             }
           }).catch((err) => {
             this.$message.error(err.response.data.msg);

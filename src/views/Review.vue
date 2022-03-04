@@ -2,7 +2,7 @@
   <div>
     <a-table rowKey="vid" :columns="columns" :dataSource="data" :pagination="pagination" @change="pageChange">
       <span slot="cover" slot-scope="record">
-        <img height="60px" :src="record.cover" />
+        <img height="60px" :src="record.cover" v-image-preview="record.cover"/>
       </span>
       <span slot="created_at" slot-scope="record">
         {{record.created_at | toTime}}
@@ -57,6 +57,12 @@ const columns = [
     title: "标题",
     key: "title ",
     dataIndex: "title",
+    align: "center",
+  },
+  {
+    title: "分区",
+    key: "partition",
+    dataIndex: "partition",
     align: "center",
   },
   {

@@ -15,10 +15,11 @@
     "hls.js": "^1.0.10",
     "less": "^4.1.2",
     "less-loader": "^5.0.0",
+    "v-charts": "^1.19.0",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
     "vue-count-to": "^1.0.13",
-    "v-charts": "^1.19.0"
+    "vue-directive-image-previewer": "^2.2.2",
+    "vue-router": "^3.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
