@@ -90,7 +90,7 @@ export default {
       },
       upload: CarouselUrl,
       headers: {
-        Authorization: "Bearer " + storage.get("token"),
+        Authorization: "Bearer " + storage.get("admin"),
       },
     };
   },
