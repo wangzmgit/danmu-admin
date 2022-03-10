@@ -26,6 +26,7 @@
         <a-sub-menu v-if="adminInfo.authority === 3000">
           <template slot="title"> <span>高级配置</span> </template>
           <a-menu-item key="8">管理员账号</a-menu-item>
+          <a-menu-item key="12">网站主题</a-menu-item>
           <a-menu-item key="9">网站配置</a-menu-item>
         </a-sub-menu>
         <a-menu-item v-if="adminInfo.authority >= 2000" key="10">意见反馈</a-menu-item>
@@ -75,6 +76,8 @@ export default {
           return ["10"];
         case "/collection":
           return ["11"];
+        case "/skin":
+          return ["12"];
       }
     },
     handleSelect(select) {
@@ -112,6 +115,9 @@ export default {
         case "11":
           this.$router.push({ name: "Collection" });
           break;     
+        case "12":
+          this.$router.push({ name: "Skin" });
+          break;  
       }
     },
     logout(){

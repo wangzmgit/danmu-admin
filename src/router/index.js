@@ -94,6 +94,12 @@ const routes = [
           import('../views/Config.vue'),
       },
       {
+        path: '/skin',
+        name: 'Skin',
+        component: () =>
+          import('../views/Skin.vue'),
+      },
+      {
         path: '/collection',
         name: 'Collection',
         component: () =>

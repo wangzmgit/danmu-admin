@@ -37,3 +37,18 @@ export const setOtherConfig = ({ coding, maxRes, videoUser }) => {
     videoUser = Number(videoUser);
     return request.post('v1/admin/config/other/set', { coding, maxRes, videoUser });
 }
+
+//获取可用主题
+export const getSkinList = () => {
+    return request.get('v1/admin/config/skin/get');
+}
+
+// 应用主题
+export const applySkin = (fileName) => {
+    return request.post('v1/admin/config/skin/apply', { fileName });
+}
+
+// 删除主题
+export const deleteSkin = (fileName) => {
+    return request.post('v1/admin/config/skin/delete', { fileName });
+}
