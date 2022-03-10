@@ -93,7 +93,7 @@ export default {
       const isZIP =
         file.type === "application/x-zip-compressed";
       if (!isZIP) {
-        this.$message.error("格式只能是jzip格式");
+        this.$message.error("格式只能是zip格式");
       }
       return isZIP;
     },
@@ -164,7 +164,7 @@ export default {
   background: #fff;
   border-collapse: collapse;
   font-size: 14px;
-  .etails-img {
+  .details-img {
     width: 120px;
     height: 60px;
   }
