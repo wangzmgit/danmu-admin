@@ -15,13 +15,31 @@
       <ve-line :data="chartData" :settings="chartSettings"></ve-line>
     </div>
     <div class="bottom-card">
-      <div v-for="(item, index) in server" :key="index" class="data-card" :style="`background:${ item.color }`">
+      <div class="data-card" :style="`background:${ server[0].color }`" @click="checkUpdate()">
         <div class="data-icon">
-          <a-icon :type="item.icon" />
+          <a-icon :type="server[0].icon" />
         </div>
         <div class="data-content">
-          <p>{{ item.title }}</p>
-          <span>{{ item.data }}</span>
+          <p>{{ server[0].title }}</p>
+          <span>{{ server[0].data }}</span>
+        </div>
+      </div>
+      <div class="data-card" :style="`background:${ server[1].color }`">
+        <div class="data-icon">
+          <a-icon :type="server[1].icon" />
+        </div>
+        <div class="data-content">
+          <p>{{ server[1].title }}</p>
+          <span>{{ server[1].data }}</span>
+        </div>
+      </div>
+      <div class="data-card" :style="`background:${ server[2].color }`">
+        <div class="data-icon">
+          <a-icon :type="server[2].icon" />
+        </div>
+        <div class="data-content">
+          <p>{{ server[2].title }}</p>
+          <span>{{ server[2].data }}</span>
         </div>
       </div>
     </div>
@@ -30,7 +48,7 @@
 <script>
 import CountTo from "vue-count-to";
 import VeLine from "v-charts/lib/line.common";
-import { getTotalData, getRecentData } from "@/api/dashboard.js";
+import { getTotalData, getRecentData, getUpdate } from "@/api/dashboard.js";
 export default {
   data() {
     return {
@@ -119,6 +137,23 @@ export default {
         this.$message.error(err.response.data.msg);
       });
     },
+    checkUpdate() {
+      getUpdate().then((res) => {
+        if (res.data.code === 2000) {
+          console.log(res.data.data.version)
+          if (res.data.data.version) {
+            this.$notification.open({
+              message: '检测到新版本',
+              description: '新版本号为' + res.data.data.version,
+            });
+          } else {
+            this.$message.info("没有更新");
+          }
+        }
+      }).catch(() => { 
+        this.$message.error("检查更新失败");
+      });
+    }
   },
   components: {
     CountTo,
