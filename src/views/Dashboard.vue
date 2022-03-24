@@ -15,31 +15,15 @@
       <ve-line :data="chartData" :settings="chartSettings"></ve-line>
     </div>
     <div class="bottom-card">
-      <div class="data-card" :style="`background:${ server[0].color }`" @click="checkUpdate()">
-        <div class="data-icon">
-          <a-icon :type="server[0].icon" />
-        </div>
-        <div class="data-content">
-          <p>{{ server[0].title }}</p>
-          <span>{{ server[0].data }}</span>
-        </div>
-      </div>
-      <div class="data-card" :style="`background:${ server[1].color }`">
-        <div class="data-icon">
-          <a-icon :type="server[1].icon" />
-        </div>
-        <div class="data-content">
-          <p>{{ server[1].title }}</p>
-          <span>{{ server[1].data }}</span>
-        </div>
-      </div>
-      <div class="data-card" :style="`background:${ server[2].color }`">
-        <div class="data-icon">
-          <a-icon :type="server[2].icon" />
-        </div>
-        <div class="data-content">
-          <p>{{ server[2].title }}</p>
-          <span>{{ server[2].data }}</span>
+      <div class="data-card" v-for="(item, index)  in server" :key="index">
+        <div class="data-card-item" :style="`background:${item.color}`" @click="bottomCard(item.name)">
+          <div class="data-icon">
+            <a-icon :type="item.icon" />
+          </div>
+          <div class="data-content">
+            <p>{{ item.title }}</p>
+            <span>{{ item.data }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -74,20 +58,23 @@ export default {
           data: 0,
         },
       ],
-      server:[
+      server: [
         {
+          name: "version",
           icon: "code",
           color: "#2c72b2",
           title: "版本",
           data: "1.0.0",
         },
         {
+          name: "redis",
           icon: "database",
           color: "#47a361",
           title: "Redis",
           data: "正常",
         },
         {
+          name: "ffmpeg",
           icon: "code-sandbox",
           color: "#47a361",
           title: "FFmpeg",
@@ -99,15 +86,15 @@ export default {
         rows: [],
       },
       chartSettings: {
-        labelMap:{
-          user:"新增用户",
-          video:"新增视频",
-        }
+        labelMap: {
+          user: "新增用户",
+          video: "新增视频",
+        },
       },
     };
   },
   methods: {
-    totalData(){
+    totalData() {
       getTotalData().then((res) => {
         if (res.data.code === 2000) {
           let temp = res.data.data.data;
@@ -115,54 +102,60 @@ export default {
           this.today[1].data = temp.video;
           this.today[2].data = temp.review;
           this.server[0].data = temp.version;
-          if(!temp.redis){
+          if (!temp.redis) {
             this.server[1].color = "#ce5542";
             this.server[1].data = "异常";
           }
-          if(!temp.ffmpeg){
+          if (!temp.ffmpeg) {
             this.server[2].color = "#ce5542";
             this.server[2].data = "异常";
           }
         }
-      }).catch((err) => { 
+      }).catch((err) => {
         this.$message.error(err.response.data.msg);
       });
     },
-    recentData(){
+    recentData() {
       getRecentData().then((res) => {
         if (res.data.code === 2000) {
           this.chartData.rows = res.data.data.data.reverse();
         }
-      }).catch((err) => { 
+      }).catch((err) => {
         this.$message.error(err.response.data.msg);
       });
     },
     checkUpdate() {
       getUpdate().then((res) => {
         if (res.data.code === 2000) {
-          console.log(res.data.data.version)
           if (res.data.data.version) {
             this.$notification.open({
-              message: '检测到新版本',
-              description: '新版本号为' + res.data.data.version,
+              message: "检测到新版本",
+              description: "新版本号为" + res.data.data.version,
             });
           } else {
             this.$message.info("没有更新");
           }
         }
-      }).catch(() => { 
+      }).catch(() => {
         this.$message.error("检查更新失败");
       });
+    },
+    bottomCard(name) {
+      switch(name) {
+        case "version":
+          this.checkUpdate();
+          break;
+      }
     }
   },
   components: {
     CountTo,
-    VeLine
+    VeLine,
   },
-  created(){
+  created() {
     this.totalData();
     this.recentData();
-  }
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -177,19 +170,19 @@ export default {
     align-items: center;
     border-radius: 10px;
 
-    &:nth-child(1){
+    &:nth-child(1) {
       background: #40c9c6;
     }
 
-    &:nth-child(2){
+    &:nth-child(2) {
       background: #36a3f7;
     }
 
-    &:nth-child(3){
+    &:nth-child(3) {
       background: #f4516c;
     }
 
-    &:nth-child(4){
+    &:nth-child(4) {
       background: #34bfa3;
     }
   }
@@ -210,28 +203,30 @@ export default {
   color: #fff;
   font-size: 16px;
   margin-left: 20px;
-  p{
+  p {
     margin: 0 0 10px 0;
   }
 }
 
 //图表
-.chart{
+.chart {
   margin-top: 20px;
 }
 
 //底部卡片
-.bottom-card{
+.bottom-card {
   display: flex;
   margin-top: 20px;
   justify-content: space-around;
 
   .data-card {
     width: 20%;
+  }
+
+  .data-card-item {
     display: flex;
     align-items: center;
     border-radius: 10px;
   }
 }
-
 </style>

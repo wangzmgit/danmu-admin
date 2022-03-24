@@ -19,3 +19,8 @@ export const modifyUser = ({ id, name, email, sign }) => {
 export const getUserByID = (uid) => {
     return request.get('v1/user/info/other?uid=' + uid);
 }
+
+//搜索用户
+export const searchUser = (page, page_size, keyword) => {
+    return request.get('v1/admin/user/search?page=' + page + '&page_size=' + page_size + '&keyword=' + keyword);
+}

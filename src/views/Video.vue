@@ -1,14 +1,15 @@
 <template>
   <div>
     <div class="info-header">
+      <a-input-search class="search" v-model="keyword" placeholder="搜索关键词~" @search="search()"/>
       <div>
         <span>视频来源：</span>
-        <a-radio-group v-model="videoFrom" @change="fromChange">
+        <a-radio-group class="video-from" v-model="videoFrom" @change="fromChange">
           <a-radio value="user"> 用户上传 </a-radio>
           <a-radio value="admin"> 管理员导入 </a-radio>
         </a-radio-group>
+        <a-button type="primary" @click="visible = true">导入视频</a-button>
       </div>
-      <a-button type="primary" @click="visible = true">导入视频</a-button>
     </div>
     <a-table rowKey="vid" :columns="columns" :dataSource="data" :pagination="pagination" @change="pageChange">
       <span slot="cover" slot-scope="record">
@@ -126,11 +127,13 @@ import Hls from "hls.js";
 import { utcToBeijing } from "@/utils/time.js";
 import { getUserByID } from "@/api/user.js";
 import { videoResource } from "@/api/review.js";
-import { getVideoList, deleteVideo, getResourceList, deleteResource } from "@/api/video.js";
+import { getVideoList, deleteVideo, getResourceList, deleteResource, searchVideo } from "@/api/video.js";
 export default {
   data() {
     return {
       videoFrom: 'user',
+      keyword: "",
+      isSearch: false,//是否为搜索模式
       labelCol: { span: 6 },
       wrapperCol: { span: 18 },
       author: {},
@@ -153,11 +156,31 @@ export default {
       getVideoList(this.pagination.current, this.pagination.pageSize, this.videoFrom).then((res) => {
         if (res.data.code === 2000) {
           this.data = res.data.data.videos;
-          if (this.pagination.total == 0) {
+          if (res.data.data.count !== 0) {
             this.pagination.total = res.data.data.count;
           }
         }
       }).catch((err) => { 
+        this.$message.error(err.response.data.msg);
+      });
+    },
+    search() {
+      let keyword = this.keyword;
+      if (keyword === "") {
+        this.isSearch = false;
+        this.pagination.current = 1;
+        this.getVideoListRequest();
+        return;
+      }
+      this.isSearch = true;
+      searchVideo(this.pagination.current,this.pagination.pageSize, keyword).then((res)=>{
+        if(res.data.code === 2000){
+          this.data = res.data.data.videos;
+          if(res.data.data.count !== 0){
+            this.pagination.total = res.data.data.count;
+          }
+        }
+      }).catch((err) => {
         this.$message.error(err.response.data.msg);
       });
     },
@@ -222,7 +245,11 @@ export default {
     //切换页面
     pageChange(pagination) {
       this.pagination = pagination;
-      this.getVideoListRequest();
+      if (this.isSearch) {
+        this.search();
+      } else {
+        this.getVideoListRequest();
+      }
     },
     //添加视频
     addVideoClick(){
@@ -290,6 +317,14 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin: 0 30px;
+
+  .search {
+    width: 500px;
+  }
+
+  .video-from {
+    margin-right: 20px;
+  }
 }
 
 .info-card {

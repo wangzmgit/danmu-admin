@@ -30,3 +30,8 @@ export const addResource = ({ vid, title, res360, res480, res720, res1080, origi
 export const deleteResource = (uuid) => {
     return request.post('v1/admin/video/resource/delete', { uuid });
 }
+
+//搜索视频
+export const searchVideo = (page, page_size, keyword) => {
+    return request.get('v1/admin/video/search?page=' + page + '&page_size=' + page_size + '&keyword=' + keyword);
+}

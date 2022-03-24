@@ -1,11 +1,9 @@
 <template>
   <div>
-    <a-table 
-      rowKey="uid"
-      :columns="columns" 
-      :dataSource="data"
-      :pagination="pagination"
-      @change="pageChange">
+    <div class="info-header">
+      <a-input-search class="search" v-model="keyword" placeholder="搜索关键词~" @search="search()"/>
+    </div>
+    <a-table rowKey="uid" :columns="columns"  :dataSource="data" :pagination="pagination" @change="pageChange">
       <span slot="avatar" slot-scope="record">
         <a-avatar v-if="record.avatar" :size="40" :src="record.avatar" />
         <a-avatar v-else :size="40" icon="user" />
@@ -47,15 +45,17 @@ const columns = [
   { title: "性别", key: "gender", scopedSlots: { customRender: 'gender' }, align: "center" },
   { title: "操作", key: "action", scopedSlots: { customRender: "action" }, align: "center" },
 ];
-import { getUserList,modifyUser,deleteUser } from "@/api/user.js";
+import { getUserList,modifyUser,deleteUser, searchUser } from "@/api/user.js";
 export default {
   data() {
     return {
       columns,
       data: [],
+      keyword: "",
+      isSearch: false,//是否为搜索模式
       visible:false,//显示对话框
       pagination: {
-        pageSize: 8,
+        pageSize: 7,
         current: 1,
         total: 0,
       },
@@ -79,7 +79,27 @@ export default {
       getUserList(this.pagination.current,this.pagination.pageSize).then((res)=>{
         if(res.data.code === 2000){
           this.data = res.data.data.users;
-          if(this.pagination.total == 0){
+          if(res.data.data.count !== 0){
+            this.pagination.total = res.data.data.count;
+          }
+        }
+      }).catch((err) => {
+        this.$message.error(err.response.data.msg);
+      });
+    },
+    search() {
+      let keyword = this.keyword;
+      if (keyword === "") {
+        this.isSearch = false;
+        this.pagination.current = 1;
+        this._getUserList();
+        return;
+      }
+      this.isSearch = true;
+      searchUser(this.pagination.current,this.pagination.pageSize, keyword).then((res)=>{
+        if(res.data.code === 2000){
+          this.data = res.data.data.users;
+          if(res.data.data.count !== 0){
             this.pagination.total = res.data.data.count;
           }
         }
@@ -120,7 +140,11 @@ export default {
     //切换页面
     pageChange(pagination) {
       this.pagination = pagination;
-      this._getUserList();
+      if (this.isSearch) {
+        this.search();
+      } else {
+        this._getUserList();
+      }
     }
   },
   created(){
@@ -140,7 +164,19 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+.info-header{
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 30px;
+
+  .search {
+    width: 500px;
+  }
+}
+
 .operate>a{
   margin-left: 10px;
 }
