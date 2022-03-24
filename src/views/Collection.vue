@@ -2,7 +2,7 @@
   <div>
     <a-table rowKey="id" :columns="columns" :dataSource="data" :pagination="pagination" @change="pageChange" >
       <span slot="cover" slot-scope="record">
-        <img height="60px" width="100px" :src="record.cover" />
+        <img height="60px" width="100px" :src="record.cover" v-image-preview="record.cover"/>
       </span>
       <span slot="created_at" slot-scope="record">
         {{ record.created_at | toTime }}
