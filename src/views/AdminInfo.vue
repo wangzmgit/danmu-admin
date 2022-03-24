@@ -43,37 +43,11 @@
 
 <script>
 const columns = [
-  {
-    title: "ID",
-    key: "id",
-    dataIndex: "id",
-    align: "center",
-    width: "50px",
-  },
-  {
-    title: "姓名",
-    key: "name ",
-    dataIndex: "name",
-    align: "center",
-  },
-  {
-    title: "邮箱",
-    key: "email",
-    dataIndex: "email",
-    align: "center",
-  },
-  {
-    title: "权限",
-    key: "authority",
-    scopedSlots: { customRender: 'authority' },
-    align: "center",
-  },
-  {
-    title: "操作",
-    key: "action",
-    scopedSlots: { customRender: "action" },
-    align: "center",
-  },
+  { title: "ID", key: "id", dataIndex: "id", align: "center", width: "50px" },
+  { title: "姓名", key: "name ", dataIndex: "name", align: "center" },
+  { title: "邮箱", key: "email", dataIndex: "email", align: "center" },
+  { title: "权限", key: "authority", scopedSlots: { customRender: 'authority' }, align: "center" },
+  { title: "操作", key: "action", scopedSlots: { customRender: "action" }, align: "center" },
 ];
 import { getAdminList,addAdmin,deleteAdmin } from "@/api/admin.js";
 export default {

@@ -39,49 +39,13 @@
 
 <script>
 const columns = [
-  {
-    title: "UID",
-    key: "uid",
-    dataIndex: "uid",
-    align: "center",
-    width: "80px",
-  },
-  {
-    title: "头像",
-    key: "avatar ",
-    scopedSlots: { customRender: 'avatar' },
-    align: "center",
-  },
-  {
-    title: "姓名",
-    key: "name ",
-    dataIndex: "name",
-    align: "center",
-  },
-  {
-    title: "邮箱",
-    key: "email",
-    dataIndex: "email",
-    align: "center",
-  },
-  {
-    title: "个性签名",
-    key: "sign",
-    dataIndex: "sign",
-    align: "center",
-  },
-  {
-    title: "性别",
-    key: "gender",
-    scopedSlots: { customRender: 'gender' },
-    align: "center",
-  },
-  {
-    title: "操作",
-    key: "action",
-    scopedSlots: { customRender: "action" },
-    align: "center",
-  },
+  { title: "UID", key: "uid", dataIndex: "uid", align: "center", width: "80px" },
+  { title: "头像", key: "avatar ", scopedSlots: { customRender: 'avatar' }, align: "center" },
+  { title: "姓名", key: "name ", dataIndex: "name", align: "center" },
+  { title: "邮箱", key: "email", dataIndex: "email", align: "center" },
+  { title: "个性签名", key: "sign", dataIndex: "sign", align: "center" },
+  { title: "性别", key: "gender", scopedSlots: { customRender: 'gender' }, align: "center" },
+  { title: "操作", key: "action", scopedSlots: { customRender: "action" }, align: "center" },
 ];
 import { getUserList,modifyUser,deleteUser } from "@/api/user.js";
 export default {

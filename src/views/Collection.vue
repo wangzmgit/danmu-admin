@@ -16,43 +16,12 @@
 
 <script>
 const columns = [
-  {
-    title: "ID",
-    key: "id",
-    dataIndex: "id",
-    align: "center",
-    width: "80px",
-  },
-  {
-    title: "封面",
-    key: "cover ",
-    scopedSlots: { customRender: "cover" },
-    align: "center",
-  },
-  {
-    title: "标题",
-    key: "title ",
-    dataIndex: "title",
-    align: "center",
-  },
-  {
-    title: "简介",
-    key: "desc",
-    dataIndex: "desc",
-    align: "center",
-  },
-  {
-    title: "上传时间",
-    key: "created_at",
-    scopedSlots: { customRender: "created_at" },
-    align: "center",
-  },
-  {
-    title: "操作",
-    key: "action",
-    scopedSlots: { customRender: "action" },
-    align: "center",
-  },
+  { title: "ID", key: "id", dataIndex: "id", align: "center", width: "80px" },
+  { title: "封面", key: "cover ", scopedSlots: { customRender: "cover" }, align: "center" },
+  { title: "标题", key: "title ", dataIndex: "title", align: "center" },
+  { title: "简介", key: "desc", dataIndex: "desc", align: "center" },
+  { title: "上传时间", key: "created_at", scopedSlots: { customRender: "created_at" }, align: "center" },
+  { title: "操作", key: "action", scopedSlots: { customRender: "action" }, align: "center" },
 ];
 import { utcToBeijing } from "@/utils/time.js";
 import { getCollectionList, deleteCollection } from "@/api/collection.js";

@@ -42,37 +42,11 @@
 
 <script>
 const columns = [
-  {
-    title: "ID",
-    key: "id",
-    dataIndex: "id",
-    align: "center",
-    width: "80px",
-  },
-  {
-    title: "图片",
-    key: "img",
-    scopedSlots: { customRender: "img" },
-    align: "center",
-  },
-  {
-    title: "URL",
-    key: "url",
-    dataIndex: "url",
-    align: "center",
-  },
-  {
-    title: "上传时间",
-    key: "created_at",
-    scopedSlots: { customRender: "created_at" },
-    align: "center",
-  },
-  {
-    title: "操作",
-    key: "action",
-    scopedSlots: { customRender: "action" },
-    align: "center",
-  },
+  { title: "ID", key: "id", dataIndex: "id", align: "center", width: "80px" },
+  { title: "图片", key: "img", scopedSlots: { customRender: "img" }, align: "center" },
+  { title: "URL", key: "url", dataIndex: "url", align: "center" },
+  { title: "上传时间", key: "created_at", scopedSlots: { customRender: "created_at" }, align: "center" },
+  { title: "操作", key: "action", scopedSlots: { customRender: "action" }, align: "center" },
 ];
 import storage from "@/utils/stored-data.js";
 import { CarouselUrl } from "@/utils/request.js";

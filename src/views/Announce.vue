@@ -34,43 +34,12 @@
 
 <script>
 const columns = [
-  {
-    title: "ID",
-    key: "aid",
-    dataIndex: "aid",
-    align: "center",
-    width: "80px",
-  },
-  {
-    title: "标题",
-    key: "title",
-    dataIndex: "title",
-    align: "center",
-  },
-  {
-    title: "内容",
-    key: "content",
-    dataIndex: "content",
-    align: "center",
-  },
-  {
-    title: "URL",
-    key: "url",
-    dataIndex: "url",
-    align: "center",
-  },
-  {
-    title: "发布时间",
-    key: "created_at",
-    scopedSlots: { customRender: "created_at" },
-    align: "center",
-  },
-  {
-    title: "操作",
-    key: "action",
-    scopedSlots: { customRender: "action" },
-    align: "center",
-  },
+  { title: "ID", key: "aid", dataIndex: "aid", align: "center", width: "80px" },
+  { title: "标题", key: "title", dataIndex: "title", align: "center" },
+  { title: "内容", key: "content", dataIndex: "content", align: "center" },
+  { title: "URL", key: "url", dataIndex: "url", align: "center" },
+  { title: "发布时间", key: "created_at", scopedSlots: { customRender: "created_at" }, align: "center" },
+  { title: "操作", key: "action", scopedSlots: { customRender: "action" }, align: "center" },
 ];
 import { utcToBeijing } from "@/utils/time.js";
 import { getAnnounceList,addAnnounce,deleteAnnounce } from "@/api/announce.js";

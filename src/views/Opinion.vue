@@ -10,57 +10,15 @@
 
 <script>
 const columns = [
-  {
-    title: "ID",
-    key: "id",
-    dataIndex: "id",
-    align: "center",
-    width: "80px",
-  },
-  {
-    title: "姓名",
-    key: "name",
-    dataIndex: "name",
-    align: "center",
-  },
-  {
-    title: "性别",
-    key: "gender",
-    dataIndex: "gender",
-    align: "center",
-  },
-  {
-    title: "邮箱",
-    key: "email",
-    dataIndex: "email",
-    align: "center",
-  },
-  {
-    title: "联系方式",
-    key: "telephone",
-    dataIndex: "telephone",
-    align: "center",
-  },
-  {
-    title: "内容",
-    key: "desc",
-    dataIndex: "desc",
-    align: "center",
-  },
-  {
-    title: "发布时间",
-    key: "created_at",
-    scopedSlots: { customRender: "created_at" },
-    align: "center",
-  },
-  {
-    title: "用户ID",
-    key: "uid",
-    dataIndex: "uid",
-    align: "center",
-  },
+  { title: "ID", key: "id", dataIndex: "id", align: "center", width: "80px"},
+  { title: "姓名", key: "name", dataIndex: "name", align: "center" },
+  { title: "性别", key: "gender", dataIndex: "gender", align: "center" },
+  { title: "邮箱", key: "email", dataIndex: "email", align: "center" },
+  { title: "联系方式", key: "telephone", dataIndex: "telephone", align: "center" },
+  { title: "内容", key: "desc", dataIndex: "desc", align: "center"},
+  { title: "发布时间", key: "created_at", scopedSlots: { customRender: "created_at" }, align: "center" },
+  { title: "用户ID", key: "uid", dataIndex: "uid", align: "center" },
 ];
-
 import { utcToBeijing } from "@/utils/time.js";
 import { getOpinionList } from "@/api/opinion.js";
 export default {
