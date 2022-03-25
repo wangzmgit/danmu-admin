@@ -94,8 +94,10 @@ export default {
         this.pagination.current = 1;
         this._getUserList();
         return;
+      } else if (this.isSearch === false) {
+        this.isSearch = true;
+        this.pagination.current = 1;
       }
-      this.isSearch = true;
       searchUser(this.pagination.current,this.pagination.pageSize, keyword).then((res)=>{
         if(res.data.code === 2000){
           this.data = res.data.data.users;

@@ -171,8 +171,10 @@ export default {
         this.pagination.current = 1;
         this.getVideoListRequest();
         return;
+      } else if (this.isSearch === false) {
+        this.isSearch = true;
+        this.pagination.current = 1;
       }
-      this.isSearch = true;
       searchVideo(this.pagination.current,this.pagination.pageSize, keyword).then((res)=>{
         if(res.data.code === 2000){
           this.data = res.data.data.videos;
