@@ -91,6 +91,9 @@ export default {
     },
     uploadSkin(file) {
       const isZIP =
+        file.type === "application/zip"||
+        file.type === "application/x-zip"||
+        file.type === "application/x-compressed"||
         file.type === "application/x-zip-compressed";
       if (!isZIP) {
         this.$message.error("格式只能是zip格式");
